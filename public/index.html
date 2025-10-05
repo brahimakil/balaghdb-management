@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Balagh DB Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🗄️ Balagh Database Management</h1>
+      <p>Firebase → MongoDB Backup System</p>
+    </header>
+
+    <div class="dashboard">
+      <!-- Status Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>📊 MongoDB Status</h3>
+          <div id="mongo-status">Loading...</div>
+        </div>
+        
+        <div class="stat-card">
+          <h3>⏰ Scheduler Status</h3>
+          <div id="scheduler-status">Loading...</div>
+        </div>
+        
+        <div class="stat-card">
+          <h3>📦 Last Backup</h3>
+          <div id="last-backup">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Schedule Configuration -->
+      <div class="section">
+        <h2>⚙️ Backup Schedule Configuration</h2>
+        <form id="schedule-form">
+          <!-- Frequency Type -->
+          <div class="form-group">
+            <label>🔄 Schedule Type:</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="frequency-type" value="hourly">
+                <span>⏱️ Hourly</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="frequency-type" value="daily" checked>
+                <span>📅 Daily</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="frequency-type" value="weekly">
+                <span>📆 Weekly</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="frequency-type" value="monthly">
+                <span>🗓️ Monthly</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Weekly: Day Selection -->
+          <div id="weekly-options" class="conditional-options" style="display: none;">
+            <label>Select Days:</label>
+            <div class="checkbox-group">
+              <label class="checkbox-option">
+                <input type="checkbox" name="weekday" value="1">
+                <span>Monday</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="weekday" value="2">
+                <span>Tuesday</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="weekday" value="3">
+                <span>Wednesday</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="weekday" value="4">
+                <span>Thursday</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="weekday" value="5">
+                <span>Friday</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="weekday" value="6">
+                <span>Saturday</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="weekday" value="0">
+                <span>Sunday</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Monthly: Day Selection -->
+          <div id="monthly-options" class="conditional-options" style="display: none;">
+            <div class="form-group">
+              <label>Day of Month (1-31):</label>
+              <input type="number" id="day-of-month" min="1" max="31" value="1">
+              <small>Note: For months with fewer days, backup will run on the last day</small>
+            </div>
+          </div>
+
+          <!-- Time Selection -->
+          <div id="time-options" class="time-selector">
+            <div class="form-row">
+              <div class="form-group">
+                <label>⏰ Hour (0-23):</label>
+                <input type="number" id="hour" min="0" max="23" value="2">
+              </div>
+              
+              <div class="form-group">
+                <label>Minute (0-59):</label>
+                <input type="number" id="minute" min="0" max="59" value="0">
+              </div>
+            </div>
+          </div>
+
+          <!-- Schedule Preview -->
+          <div class="schedule-preview">
+            <strong>📋 Schedule Preview:</strong>
+            <div id="schedule-preview-text">Daily at 02:00 AM</div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">💾 Update Schedule & Restart Server</button>
+        </form>
+      </div>
+
+      <!-- Manual Backup -->
+      <div class="section">
+        <h2>🚀 Manual Backup</h2>
+        <p class="info-text">Trigger an immediate backup without waiting for the schedule</p>
+        <button id="trigger-backup" class="btn btn-success">▶️ Run Backup Now</button>
+        <div id="backup-status"></div>
+      </div>
+
+      <!-- Backup History -->
+      <div class="section">
+        <h2>📜 Backup History</h2>
+        <div id="backup-history">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
