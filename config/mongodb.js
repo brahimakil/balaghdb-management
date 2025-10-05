@@ -13,13 +13,16 @@ async function connectMongoDB() {
       throw new Error('MONGODB_URI is not defined in .env');
     }
     
-    // Connection options with proper settings
+    // Connection options with SSL fixes for Railway/Production
     const options = {
       maxPoolSize: 10,
       minPoolSize: 2,
-      maxIdleTimeMS: 300000, // 5 minutes
+      maxIdleTimeMS: 300000,
       serverSelectionTimeoutMS: 10000,
-      socketTimeoutMS: 45000
+      socketTimeoutMS: 45000,
+      tls: true,
+      tlsAllowInvalidCertificates: false,
+      tlsAllowInvalidHostnames: false,
     };
     
     client = new MongoClient(uri, options);
@@ -36,7 +39,7 @@ async function connectMongoDB() {
     
     return db;
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error);
+    console.error('❌ MongoDB connection error:', error.message);
     client = null;
     db = null;
     throw error;
@@ -67,12 +70,12 @@ async function pingMongoDB() {
 }
 
 function startKeepAlive() {
-  if (keepAliveInterval) return; // Already running
+  if (keepAliveInterval) return;
   
   console.log('🏓 Starting MongoDB keep-alive ping (every 60 seconds)');
   keepAliveInterval = setInterval(() => {
     pingMongoDB();
-  }, 60000); // 1 minute
+  }, 60000);
 }
 
 function stopKeepAlive() {
@@ -115,5 +118,5 @@ module.exports = {
   getCollection,
   closeConnection,
   pingMongoDB,
-  db: () => db // Getter function for db
+  db: () => db
 };
