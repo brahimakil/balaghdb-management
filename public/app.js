@@ -1,4 +1,7 @@
-const API_URL = 'http://localhost:4000';
+// Automatically detect the correct API URL
+const API_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:4000' 
+  : ''; // Empty string uses same origin (Railway URL)
 
 let lastBackupId = null;
 
