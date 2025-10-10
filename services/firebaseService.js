@@ -62,7 +62,8 @@ const COLLECTIONS_SCHEMA = {
   },
   websiteSettings: {
     name: 'websiteSettings',
-    relations: {}
+    relations: {},
+    // ✅ NOTE: dashboardSections is stored inside this document, not as a separate collection
   },
   notifications: {
     name: 'notifications',
@@ -78,11 +79,32 @@ const COLLECTIONS_SCHEMA = {
     name: 'pageCategories',
     relations: {}
   },
-  dashboardSections: {
-    name: 'dashboardSections',
-    relations: {
-      pageId: { collection: 'dynamicPages', field: 'id' }
-    }
+  // ✅ NEW: Backup configuration
+  backupConfig: {
+    name: 'backupConfig',
+    relations: {}
+  },
+  // ✅ NEW: Email verification codes
+  verificationCodes: {
+    name: 'verificationCodes',
+    relations: {}
+  },
+  // ✅ NEW: WhatsApp collections
+  whatsappBulkOperations: {
+    name: 'whatsappBulkOperations',
+    relations: {}
+  },
+  whatsapp_contacts: {
+    name: 'whatsapp_contacts',
+    relations: {}
+  },
+  whatsapp_groups: {
+    name: 'whatsapp_groups',
+    relations: {}
+  },
+  whatsapp_sessions: {
+    name: 'whatsapp_sessions',
+    relations: {}
   }
 };
 
